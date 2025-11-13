@@ -46,8 +46,10 @@ flutter pub get
 3. **Run from your Flutter project root**:
 
 ```bash
-dart run smart_asset_analyser:analyse assets
+dart run smart_asset_analyser analyse assets
 ```
+
+**Note**: Use a space between `smart_asset_analyser` and `analyse`, not a colon.
 
 **Alternative: Local Path** (for development/testing):
 ```yaml

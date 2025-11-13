@@ -73,11 +73,32 @@ class CommandHandler {
     if (!hasDeps) {
       print('');
       print('⚠️  Python dependencies not found!');
-      print('Please install required packages:');
-      print('  pip install -r requirements.txt');
       print('');
-      print('Or install manually:');
-      print('  pip install torch transformers pillow numpy clip-by-openai');
+      
+      // Try to find requirements.txt
+      final requirementsPath = await pythonBridge.getRequirementsTxtPath();
+      if (requirementsPath != null) {
+        print('📄 Found requirements.txt at:');
+        print('   $requirementsPath');
+        print('');
+        print('✅ Install Python dependencies with:');
+        print('   pip install -r "$requirementsPath"');
+      } else {
+        final packageLocation = await pythonBridge.getPackageLocation();
+        print('📦 Package location: $packageLocation');
+        if (packageLocation != 'unknown') {
+          final altPath = path.join(packageLocation, 'requirements.txt');
+          print('📄 Try: $altPath');
+        }
+        print('');
+        print('✅ Install Python dependencies:');
+        print('   pip install torch transformers pillow numpy clip-by-openai cairosvg python-lottie');
+        print('');
+        print('Or find requirements.txt in the package directory and run:');
+        print('   pip install -r <path-to-package>/requirements.txt');
+      }
+      print('');
+      print('After installing, run the command again.');
       exit(1);
     }
     print('✓ Python CLIP service ready');

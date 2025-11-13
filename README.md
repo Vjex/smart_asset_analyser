@@ -1,4 +1,4 @@
-# Flutter Asset Analyser
+# Smart Asset Analyser
 
 A powerful Flutter package that detects visually identical and similar assets in your Flutter project using **Deep Visual Embeddings (CLIP)**.
 
@@ -14,10 +14,25 @@ A powerful Flutter package that detects visually identical and similar assets in
 
 ### 1. Install Python Dependencies (One-time)
 
+**Easy way - Find requirements.txt automatically:**
+
 ```bash
-cd /path/to/analyser
-pip install -r requirements.txt
+# In your Flutter project, run:
+dart run smart_asset_analyser analyse assets --show-requirements
 ```
+
+This will show you the exact path to `requirements.txt`. Then install:
+
+```bash
+pip install -r "<path-shown-above>"
+```
+
+**Or install manually:**
+```bash
+pip install torch transformers pillow numpy clip-by-openai cairosvg python-lottie
+```
+
+**Note**: The first run will automatically download the CLIP model (~150MB).
 
 ### 2. Add to Your Flutter Project
 
@@ -39,8 +54,10 @@ flutter pub get
 ### 3. Run the Analyser
 
 ```bash
-dart run smart_asset_analyser:analyse assets
+dart run smart_asset_analyser analyse assets
 ```
+
+**Note**: The correct command is `dart run smart_asset_analyser analyse assets` (space, not colon).
 
 ### 4. View Results
 
@@ -50,27 +67,31 @@ Open `asset_report.html` in your browser!
 
 ```bash
 # Basic analysis
-dart run smart_asset_analyser:analyse assets
+dart run smart_asset_analyser analyse assets
+
+# Find requirements.txt location
+dart run smart_asset_analyser analyse assets --show-requirements
 
 # Only images
-dart run smart_asset_analyser:analyse assets --types images
+dart run smart_asset_analyser analyse assets --types images
 
 # Higher similarity threshold
-dart run smart_asset_analyser:analyse assets --threshold 0.95 --min-similarity 95
+dart run smart_asset_analyser analyse assets --threshold 0.95 --min-similarity 95
 
 # Custom output location
-dart run smart_asset_analyser:analyse assets --output reports/duplicates.html
+dart run smart_asset_analyser analyse assets --output reports/duplicates.html
 
 # Exclude test assets
-dart run smart_asset_analyser:analyse assets --exclude "**/test/**"
+dart run smart_asset_analyser analyse assets --exclude "**/test/**"
 ```
 
 ## Command Options
 
 ```bash
-dart run smart_asset_analyser:analyse assets [options]
+dart run smart_asset_analyser analyse assets [options]
 
 Options:
+  --show-requirements          Show location of requirements.txt file
   --threshold <0.0-1.0>      Similarity threshold (default: 0.85)
   --min-similarity <0-100>    Minimum similarity percentage (default: 85)
   --output <path>             Output HTML file path (default: asset_report.html)
@@ -82,6 +103,16 @@ Options:
   --server-port <port>         HTTP server port (default: 8000)
   --cache-embeddings           Cache embeddings to disk (default: true)
 ```
+
+### Finding requirements.txt
+
+If you need to find the `requirements.txt` file:
+
+```bash
+dart run smart_asset_analyser analyse assets --show-requirements
+```
+
+This will display the exact path to `requirements.txt` in the package.
 
 ## How It Works
 
@@ -129,12 +160,22 @@ The package requires:
 - `cairosvg` - SVG rasterization
 - `python-lottie` - Lottie frame extraction
 
-Install with:
-```bash
-pip install -r requirements.txt
-```
+**Easy Installation:**
 
-**Note**: First run will download CLIP model (~150MB) automatically.
+1. Find requirements.txt:
+   ```bash
+   dart run smart_asset_analyser analyse assets --show-requirements
+   ```
+
+2. Install from the shown path:
+   ```bash
+   pip install -r "<path-shown>"
+   ```
+
+**Manual Installation:**
+```bash
+pip install torch transformers pillow numpy clip-by-openai cairosvg python-lottie
+```
 
 ## Example Project
 
@@ -143,7 +184,7 @@ An example Flutter project is included in the `example/` folder. To try it:
 ```bash
 cd example
 flutter pub get
-dart run smart_asset_analyser:analyse assets
+dart run smart_asset_analyser analyse assets
 ```
 
 This demonstrates how to use the package in a real Flutter project.
@@ -152,13 +193,15 @@ This demonstrates how to use the package in a real Flutter project.
 
 ### Python Not Found
 ```bash
-dart run smart_asset_analyser:analyse assets --python-path /usr/local/bin/python3
+dart run smart_asset_analyser analyse assets --python-path /usr/local/bin/python3
 ```
 
 ### Missing Dependencies
-```bash
-pip install -r requirements.txt
-```
+
+If you see "Python dependencies not found":
+1. The tool will automatically show you where `requirements.txt` is located
+2. Or use: `dart run smart_asset_analyser analyse assets --show-requirements`
+3. Then install: `pip install -r "<path-shown>"`
 
 ### CLIP Model Download Issues
 - Check internet connection
@@ -169,6 +212,7 @@ pip install -r requirements.txt
 
 - **[QUICK_START.md](QUICK_START.md)** - Quick setup guide
 - **[USAGE.md](USAGE.md)** - Detailed usage instructions
+- **[INSTALLATION.md](INSTALLATION.md)** - Installation guide
 - **[EXAMPLE.md](EXAMPLE.md)** - Complete walkthrough example
 - **[SETUP.md](SETUP.md)** - Detailed setup guide
 - **[IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md)** - Technical details

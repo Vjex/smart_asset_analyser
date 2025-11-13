@@ -8,6 +8,7 @@
 import 'dart:io';
 import 'package:args/args.dart';
 import 'package:smart_asset_analyser/src/cli/command_handler.dart';
+import 'package:smart_asset_analyser/src/cli/requirements_helper.dart';
 
 void main(List<String> arguments) async {
   final parser = ArgParser();
@@ -15,6 +16,10 @@ void main(List<String> arguments) async {
   final assetsCommand = ArgParser();
   
   assetsCommand
+          ..addFlag(
+            'show-requirements',
+            help: 'Show location of requirements.txt file',
+          )
           ..addOption(
             'threshold',
             abbr: 't',
@@ -88,7 +93,7 @@ void main(List<String> arguments) async {
     if (arguments.isEmpty || arguments.contains('--help') || arguments.contains('-h')) {
       print('Flutter Asset Analyser');
       print('');
-      print('Usage: dart run smart_asset_analyser:analyse assets [options]');
+      print('Usage: dart run smart_asset_analyser analyse assets [options]');
       print('');
       print('Analyse assets in a Flutter project for visual similarity.');
       print('');
@@ -100,6 +105,13 @@ void main(List<String> arguments) async {
     if (command != null && command.name == 'analyse') {
       final subCommand = command.command;
       if (subCommand != null && subCommand.name == 'assets') {
+        // Check for show-requirements flag
+        if (subCommand['show-requirements'] == true) {
+          final projectPath = subCommand['project-path'] as String? ?? '.';
+          await RequirementsHelper.showRequirementsPath(projectPath);
+          exit(0);
+        }
+        
         final handler = CommandHandler();
         await handler.handleAnalyseAssets(subCommand);
         exit(0);

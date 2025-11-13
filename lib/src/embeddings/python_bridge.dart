@@ -110,6 +110,9 @@ class PythonBridge {
     return 'unknown';
   }
 
+  /// Get package location (public method)
+  Future<String> getPackageLocation() => _getPackageLocation();
+
   /// Check if Python dependencies are installed
   Future<bool> checkDependencies() async {
     try {
@@ -121,6 +124,51 @@ class PythonBridge {
     } catch (_) {
       return false;
     }
+  }
+
+  /// Get path to requirements.txt file
+  Future<String?> getRequirementsTxtPath() async {
+    // Try to find via package_config (works when installed from pub.dev)
+    try {
+      final packageConfigFile = File(path.join(Directory.current.path, '.dart_tool', 'package_config.json'));
+      if (packageConfigFile.existsSync()) {
+        final packageConfig = await loadPackageConfig(packageConfigFile);
+        final package = packageConfig.packages.firstWhere(
+          (p) => p.name == 'smart_asset_analyser',
+          orElse: () => throw StateError('Package not found'),
+        );
+        final packageRoot = package.root.toFilePath();
+        final requirementsPath = path.join(packageRoot, 'requirements.txt');
+        if (File(requirementsPath).existsSync()) {
+          return requirementsPath;
+        }
+      }
+    } catch (_) {
+      // Fall through
+    }
+    
+    // Try relative to current script (development)
+    try {
+      final scriptPath = path.join(
+        path.dirname(Platform.script.toFilePath()),
+        '..',
+        'requirements.txt',
+      );
+      final normalized = path.normalize(scriptPath);
+      if (File(normalized).existsSync()) {
+        return normalized;
+      }
+    } catch (_) {
+      // Fall through
+    }
+    
+    // Try relative to project root
+    final altPath = path.join(projectRoot, 'requirements.txt');
+    if (File(altPath).existsSync()) {
+      return altPath;
+    }
+    
+    return null;
   }
 
   /// Generate embedding for a single image
