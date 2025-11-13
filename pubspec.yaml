@@ -1,0 +1,28 @@
+name: smart_asset_analyser
+description: A Flutter package to detect visually identical and similar assets using Deep Visual Embeddings (CLIP). Supports images, SVGs, and Lottie animations with interactive HTML reports.
+version: 0.1.1
+homepage: https://github.com/Vjex/smart_asset_analyser
+repository: https://github.com/Vjex/smart_asset_analyser
+issue_tracker: https://github.com/Vjex/smart_asset_analyser/issues
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+executables:
+  smart_asset_analyser: analyse
+
+dependencies:
+  path: ^1.9.0
+  yaml: ^3.1.2
+  image: ^4.1.7
+  xml: ^6.5.0
+  http: ^1.2.0
+  args: ^2.4.2
+  collection: ^1.18.0
+  package_config: ^2.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  test: ^1.24.0
+

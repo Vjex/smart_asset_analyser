@@ -1,0 +1,26 @@
+name: example_app
+description: Example Flutter app for testing smart_asset_analyser
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  smart_asset_analyser:
+    path: ../
+  # Or use version dependency when published:
+  # smart_asset_analyser: ^0.1.1
+
+flutter:
+  uses-material-design: true
+  
+  assets:
+    - assets/images/
+    - assets/icons/
+    - assets/animations/
+
