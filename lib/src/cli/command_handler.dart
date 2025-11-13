@@ -99,9 +99,9 @@ class CommandHandler {
         print('');
         print('✅ Install Python dependencies:');
         if (pipCommand.contains(' -m ')) {
-          print('   $pipCommand install torch transformers pillow numpy clip-by-openai cairosvg lottie');
+          print('   $pipCommand install torch transformers pillow numpy cairosvg lottie');
         } else {
-          print('   $pipCommand install torch transformers pillow numpy clip-by-openai cairosvg lottie');
+          print('   $pipCommand install torch transformers pillow numpy cairosvg lottie');
         }
         print('');
         print('Or find requirements.txt in the package directory and run:');

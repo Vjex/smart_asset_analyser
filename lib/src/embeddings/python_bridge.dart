@@ -145,13 +145,23 @@ class PythonBridge {
   /// Check if Python dependencies are installed
   Future<bool> checkDependencies() async {
     try {
+      // Check for transformers (primary) or clip (fallback)
       final result = await Process.run(
         _pythonExecutable,
-        ['-c', 'import torch, clip, PIL; print("OK")'],
+        ['-c', 'import torch; from transformers import CLIPProcessor, CLIPModel; from PIL import Image; print("OK")'],
       );
       return result.exitCode == 0;
     } catch (_) {
-      return false;
+      // Try fallback check for clip-by-openai (for backwards compatibility)
+      try {
+        final result = await Process.run(
+          _pythonExecutable,
+          ['-c', 'import torch, clip; from PIL import Image; print("OK")'],
+        );
+        return result.exitCode == 0;
+      } catch (_) {
+        return false;
+      }
     }
   }
 

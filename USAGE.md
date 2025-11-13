@@ -21,7 +21,7 @@ This will display the exact path to `requirements.txt` and provide a ready-to-us
 
 **Alternative - Manual Installation:**
 ```bash
-pip install torch transformers pillow numpy clip-by-openai cairosvg lottie
+pip install torch transformers pillow numpy cairosvg lottie
 ```
 
 **Note**: The first run will download the CLIP model (~150MB), which happens automatically.

@@ -36,10 +36,12 @@ pip install -r "<path-shown>"
 
 **Alternative - Manual Installation:**
 ```bash
-pip install torch transformers pillow numpy clip-by-openai cairosvg lottie
+pip install torch transformers pillow numpy cairosvg lottie
 ```
 
-**Note**: The first run will automatically download the CLIP model (~150MB).
+**Note**: 
+- The first run will automatically download the CLIP model (~150MB).
+- If you see a pip version warning, you can upgrade pip with: `python3 -m pip install --upgrade pip` (optional, not required).
 
 ### 2. Add to Your Flutter Project
 
@@ -173,7 +175,7 @@ The generated HTML report includes:
 
 The package requires:
 - `torch` - PyTorch for CLIP model
-- `transformers` or `clip-by-openai` - CLIP implementation
+- `transformers` - CLIP implementation (Hugging Face)
 - `pillow` - Image processing
 - `cairosvg` - SVG rasterization
 - `lottie` - Lottie frame extraction
@@ -199,7 +201,7 @@ Simply copy and run the command shown in the output!
 
 **Manual Installation:**
 ```bash
-pip install torch transformers pillow numpy clip-by-openai cairosvg lottie
+pip install torch transformers pillow numpy cairosvg lottie
 ```
 
 ## Example Project

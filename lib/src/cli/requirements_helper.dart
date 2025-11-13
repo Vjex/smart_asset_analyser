@@ -46,9 +46,9 @@ class RequirementsHelper {
       print('');
       print('📋 Manual installation:');
       if (pipCommand.contains(' -m ')) {
-        print('   $pipCommand install torch transformers pillow numpy clip-by-openai cairosvg lottie');
+        print('   $pipCommand install torch transformers pillow numpy cairosvg lottie');
       } else {
-        print('   $pipCommand install torch transformers pillow numpy clip-by-openai cairosvg lottie');
+        print('   $pipCommand install torch transformers pillow numpy cairosvg lottie');
       }
     }
   }

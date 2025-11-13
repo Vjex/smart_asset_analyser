@@ -5,7 +5,7 @@
   "packages": [
     {
       "name": "smart_asset_analyser",
-      "version": "0.1.4",
+      "version": "0.1.6",
       "dependencies": [
         "args",
         "collection",

@@ -16,13 +16,18 @@ from io import BytesIO
 
 try:
     import torch
-    import clip
+    from transformers import CLIPProcessor, CLIPModel
     from PIL import Image
     import numpy as np
-except ImportError as e:
-    print(f"Error: Missing required package. Install with: pip install -r requirements.txt", file=sys.stderr)
-    print(f"Missing: {e}", file=sys.stderr)
-    sys.exit(1)
+    USE_TRANSFORMERS = True
+except ImportError:
+    try:
+        import clip
+        USE_TRANSFORMERS = False
+    except ImportError as e:
+        print(f"Error: Missing required package. Install with: pip install -r requirements.txt", file=sys.stderr)
+        print(f"Missing: {e}", file=sys.stderr)
+        sys.exit(1)
 
 
 class CLIPEmbeddingService:
@@ -38,11 +43,26 @@ class CLIPEmbeddingService:
         """
         self.model_name = model_name
         self.device = device or ("cuda" if torch.cuda.is_available() else "cpu")
+        self.use_transformers = USE_TRANSFORMERS
         
         print(f"Loading CLIP model: {model_name} on {self.device}...", file=sys.stderr)
         try:
-            self.model, self.preprocess = clip.load(model_name, device=self.device)
-            self.model.eval()
+            if self.use_transformers:
+                # Use transformers library (recommended)
+                # Map model names to HuggingFace model IDs
+                model_map = {
+                    "ViT-B/32": "openai/clip-vit-base-patch32",
+                    "ViT-L/14": "openai/clip-vit-large-patch14",
+                    "ViT-B/16": "openai/clip-vit-base-patch16",
+                }
+                hf_model_name = model_map.get(model_name, "openai/clip-vit-base-patch32")
+                self.model = CLIPModel.from_pretrained(hf_model_name).to(self.device)
+                self.processor = CLIPProcessor.from_pretrained(hf_model_name)
+                self.model.eval()
+            else:
+                # Fallback to clip-by-openai
+                self.model, self.preprocess = clip.load(model_name, device=self.device)
+                self.model.eval()
             print(f"Model loaded successfully!", file=sys.stderr)
         except Exception as e:
             print(f"Error loading CLIP model: {e}", file=sys.stderr)
@@ -68,13 +88,22 @@ class CLIPEmbeddingService:
         """
         try:
             image = self.load_image(image_path)
-            image_tensor = self.preprocess(image).unsqueeze(0).to(self.device)
             
             with torch.no_grad():
-                image_features = self.model.encode_image(image_tensor)
-                # Normalize embeddings (L2 normalization)
-                image_features = image_features / image_features.norm(dim=-1, keepdim=True)
-                embedding = image_features.cpu().numpy()[0].tolist()
+                if self.use_transformers:
+                    # Use transformers
+                    inputs = self.processor(images=image, return_tensors="pt").to(self.device)
+                    image_features = self.model.get_image_features(**inputs)
+                    # Normalize embeddings (L2 normalization)
+                    image_features = image_features / image_features.norm(dim=-1, keepdim=True)
+                    embedding = image_features.cpu().numpy()[0].tolist()
+                else:
+                    # Use clip-by-openai
+                    image_tensor = self.preprocess(image).unsqueeze(0).to(self.device)
+                    image_features = self.model.encode_image(image_tensor)
+                    # Normalize embeddings (L2 normalization)
+                    image_features = image_features / image_features.norm(dim=-1, keepdim=True)
+                    embedding = image_features.cpu().numpy()[0].tolist()
             
             return embedding
         except Exception as e:
