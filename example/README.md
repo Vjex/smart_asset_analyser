@@ -5,6 +5,18 @@ This is an example Flutter project to demonstrate how to use `smart_asset_analys
 ## Setup
 
 1. **Install Python Dependencies** (if not already installed):
+
+   **🎯 Easy Way - Automatic Detection:**
+   ```bash
+   # Find requirements.txt automatically:
+   dart run smart_asset_analyser analyse assets --show-requirements
+   ```
+   
+   This will show you the exact path and installation command. Simply copy and run it!
+   
+   **💡 Pro Tip:** If you try to run the analyser without Python dependencies, it will automatically show you where `requirements.txt` is located!
+   
+   **Alternative - Manual Installation:**
    ```bash
    cd ..
    pip install -r requirements.txt
@@ -39,8 +51,10 @@ dev_dependencies:
 Run the asset analyser from the example project root:
 
 ```bash
-dart run smart_asset_analyser:analyse assets
+dart run smart_asset_analyser analyse assets
 ```
+
+**Note**: Use a space between `smart_asset_analyser` and `analyse`, not a colon.
 
 This will:
 - Scan all assets in `assets/` folder
@@ -71,13 +85,16 @@ start asset_report.html  # Windows
 You can use various options:
 
 ```bash
+# Find requirements.txt
+dart run smart_asset_analyser analyse assets --show-requirements
+
 # Only analyze images
-dart run smart_asset_analyser:analyse assets --types images
+dart run smart_asset_analyser analyse assets --types images
 
 # Higher similarity threshold
-dart run smart_asset_analyser:analyse assets --threshold 0.95
+dart run smart_asset_analyser analyse assets --threshold 0.95
 
 # Custom output location
-dart run smart_asset_analyser:analyse assets --output reports/analysis.html
+dart run smart_asset_analyser analyse assets --output reports/analysis.html
 ```
 
