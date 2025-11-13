@@ -14,20 +14,27 @@ A powerful Flutter package that detects visually identical and similar assets in
 
 ### 1. Install Python Dependencies (One-time)
 
-**Easy way - Find requirements.txt automatically:**
+**🎯 Easy Way - Automatic Detection:**
+
+The package automatically finds `requirements.txt` for you! Just run:
 
 ```bash
 # In your Flutter project, run:
 dart run smart_asset_analyser analyse assets --show-requirements
 ```
 
-This will show you the exact path to `requirements.txt`. Then install:
+This will display:
+- ✅ Exact path to `requirements.txt`
+- ✅ Ready-to-use installation command
 
+Then simply copy and run the shown command:
 ```bash
-pip install -r "<path-shown-above>"
+pip install -r "<path-shown>"
 ```
 
-**Or install manually:**
+**💡 Pro Tip:** If you try to run the analyser without Python dependencies, it will automatically show you where `requirements.txt` is located and provide the exact installation command!
+
+**Alternative - Manual Installation:**
 ```bash
 pip install torch transformers pillow numpy clip-by-openai cairosvg python-lottie
 ```
@@ -106,13 +113,24 @@ Options:
 
 ### Finding requirements.txt
 
-If you need to find the `requirements.txt` file:
-
+**Easy Discovery:**
 ```bash
 dart run smart_asset_analyser analyse assets --show-requirements
 ```
 
-This will display the exact path to `requirements.txt` in the package.
+**What you'll see:**
+```
+🔍 Finding requirements.txt...
+
+✅ Found requirements.txt at:
+   /path/to/smart_asset_analyser-0.1.1/requirements.txt
+
+📦 Install Python dependencies with:
+   pip install -r "/path/to/smart_asset_analyser-0.1.1/requirements.txt"
+```
+
+**Automatic Detection:**
+The tool automatically finds `requirements.txt` when dependencies are missing, so you don't need to search for it manually!
 
 ## How It Works
 
@@ -160,17 +178,24 @@ The package requires:
 - `cairosvg` - SVG rasterization
 - `python-lottie` - Lottie frame extraction
 
-**Easy Installation:**
+**Easy Installation (Recommended):**
 
-1. Find requirements.txt:
-   ```bash
-   dart run smart_asset_analyser analyse assets --show-requirements
-   ```
+The package automatically detects `requirements.txt` location. Just run:
 
-2. Install from the shown path:
-   ```bash
-   pip install -r "<path-shown>"
-   ```
+```bash
+dart run smart_asset_analyser analyse assets --show-requirements
+```
+
+This will show you:
+- 📄 Exact path to `requirements.txt`
+- 📦 Ready-to-use `pip install` command
+
+Simply copy and run the command shown in the output!
+
+**What happens automatically:**
+- When dependencies are missing, the tool shows the path automatically
+- No need to manually search for the file
+- Works whether installed from pub.dev or used locally
 
 **Manual Installation:**
 ```bash
@@ -198,10 +223,28 @@ dart run smart_asset_analyser analyse assets --python-path /usr/local/bin/python
 
 ### Missing Dependencies
 
-If you see "Python dependencies not found":
-1. The tool will automatically show you where `requirements.txt` is located
-2. Or use: `dart run smart_asset_analyser analyse assets --show-requirements`
-3. Then install: `pip install -r "<path-shown>"`
+**Automatic Help:**
+When you run the analyser without Python dependencies, you'll see:
+
+```
+⚠️  Python dependencies not found!
+
+📄 Found requirements.txt at:
+   /path/to/smart_asset_analyser-0.1.1/requirements.txt
+
+✅ Install Python dependencies with:
+   pip install -r "/path/to/smart_asset_analyser-0.1.1/requirements.txt"
+```
+
+Simply copy and run the shown command!
+
+**Manual Discovery:**
+If you want to find `requirements.txt` before running:
+```bash
+dart run smart_asset_analyser analyse assets --show-requirements
+```
+
+This will show you the exact path and installation command.
 
 ### CLIP Model Download Issues
 - Check internet connection

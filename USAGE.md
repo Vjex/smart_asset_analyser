@@ -4,14 +4,22 @@
 
 ### 1. Install Python Dependencies
 
-First, ensure you have Python 3.8+ installed, then install the required packages:
+First, ensure you have Python 3.8+ installed.
+
+**🎯 Easy Way - Automatic Detection:**
+
+The package automatically finds `requirements.txt` for you! Just run:
 
 ```bash
-cd /path/to/analyser
-pip install -r requirements.txt
+# In your Flutter project, run:
+dart run smart_asset_analyser analyse assets --show-requirements
 ```
 
-Or install manually:
+This will display the exact path to `requirements.txt` and provide a ready-to-use installation command. Simply copy and run it!
+
+**💡 Pro Tip:** If you try to run the analyser without Python dependencies, it will automatically show you where `requirements.txt` is located!
+
+**Alternative - Manual Installation:**
 ```bash
 pip install torch transformers pillow numpy clip-by-openai cairosvg python-lottie
 ```
