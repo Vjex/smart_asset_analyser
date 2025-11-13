@@ -42,6 +42,35 @@ class PythonBridge {
     );
   }
 
+  /// Get pip command (pip, pip3, or python3 -m pip)
+  static String getPipCommand() {
+    // Try pip3 first (most common on macOS/Linux)
+    final candidates = ['pip3', 'pip'];
+    for (final candidate in candidates) {
+      try {
+        final result = Process.runSync('which', [candidate]);
+        if (result.exitCode == 0) {
+          return candidate;
+        }
+      } catch (_) {
+        // Continue to next candidate
+      }
+    }
+    
+    // Fallback to python3 -m pip
+    try {
+      final result = Process.runSync('which', ['python3']);
+      if (result.exitCode == 0) {
+        return 'python3 -m pip';
+      }
+    } catch (_) {
+      // Ignore
+    }
+    
+    // Default fallback
+    return 'pip3';
+  }
+
   /// Get path to clip_service.py
   Future<String> get _clipServicePath async {
     // First, try to find via package_config (works when installed from pub.dev)

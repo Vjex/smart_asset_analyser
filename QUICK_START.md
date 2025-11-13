@@ -17,7 +17,7 @@ This will show you the exact path and installation command. Simply copy and run 
 
 **Alternative - Manual Installation:**
 ```bash
-pip install torch transformers pillow numpy clip-by-openai cairosvg python-lottie
+pip install torch transformers pillow numpy clip-by-openai cairosvg lottie
 ```
 
 ## 2. Add to Your Flutter Project

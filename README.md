@@ -36,7 +36,7 @@ pip install -r "<path-shown>"
 
 **Alternative - Manual Installation:**
 ```bash
-pip install torch transformers pillow numpy clip-by-openai cairosvg python-lottie
+pip install torch transformers pillow numpy clip-by-openai cairosvg lottie
 ```
 
 **Note**: The first run will automatically download the CLIP model (~150MB).
@@ -176,7 +176,7 @@ The package requires:
 - `transformers` or `clip-by-openai` - CLIP implementation
 - `pillow` - Image processing
 - `cairosvg` - SVG rasterization
-- `python-lottie` - Lottie frame extraction
+- `lottie` - Lottie frame extraction
 
 **Easy Installation (Recommended):**
 
@@ -199,7 +199,7 @@ Simply copy and run the command shown in the output!
 
 **Manual Installation:**
 ```bash
-pip install torch transformers pillow numpy clip-by-openai cairosvg python-lottie
+pip install torch transformers pillow numpy clip-by-openai cairosvg lottie
 ```
 
 ## Example Project

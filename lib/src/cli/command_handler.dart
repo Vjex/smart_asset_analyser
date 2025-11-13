@@ -71,6 +71,8 @@ class CommandHandler {
     // Check Python dependencies
     final hasDeps = await pythonBridge.checkDependencies();
     if (!hasDeps) {
+      final pipCommand = PythonBridge.getPipCommand();
+      
       print('');
       print('⚠️  Python dependencies not found!');
       print('');
@@ -82,7 +84,11 @@ class CommandHandler {
         print('   $requirementsPath');
         print('');
         print('✅ Install Python dependencies with:');
-        print('   pip install -r "$requirementsPath"');
+        if (pipCommand.contains(' -m ')) {
+          print('   $pipCommand install -r "$requirementsPath"');
+        } else {
+          print('   $pipCommand install -r "$requirementsPath"');
+        }
       } else {
         final packageLocation = await pythonBridge.getPackageLocation();
         print('📦 Package location: $packageLocation');
@@ -92,10 +98,18 @@ class CommandHandler {
         }
         print('');
         print('✅ Install Python dependencies:');
-        print('   pip install torch transformers pillow numpy clip-by-openai cairosvg python-lottie');
+        if (pipCommand.contains(' -m ')) {
+          print('   $pipCommand install torch transformers pillow numpy clip-by-openai cairosvg lottie');
+        } else {
+          print('   $pipCommand install torch transformers pillow numpy clip-by-openai cairosvg lottie');
+        }
         print('');
         print('Or find requirements.txt in the package directory and run:');
-        print('   pip install -r <path-to-package>/requirements.txt');
+        if (pipCommand.contains(' -m ')) {
+          print('   $pipCommand install -r <path-to-package>/requirements.txt');
+        } else {
+          print('   $pipCommand install -r <path-to-package>/requirements.txt');
+        }
       }
       print('');
       print('After installing, run the command again.');

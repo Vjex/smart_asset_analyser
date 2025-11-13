@@ -85,7 +85,7 @@ class AssetProcessor:
             List of paths to extracted frame images
         """
         if not HAS_LOTTIE:
-            raise ImportError("lottie package not installed. Install with: pip install python-lottie")
+            raise ImportError("lottie package not installed. Install with: pip install lottie")
         
         try:
             # Parse Lottie JSON

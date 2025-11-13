@@ -6,6 +6,7 @@ import '../embeddings/python_bridge.dart';
 class RequirementsHelper {
   static Future<void> showRequirementsPath(String projectRoot) async {
     final pythonBridge = PythonBridge(projectRoot: projectRoot);
+    final pipCommand = PythonBridge.getPipCommand();
     
     print('🔍 Finding requirements.txt...');
     print('');
@@ -16,7 +17,11 @@ class RequirementsHelper {
       print('   $requirementsPath');
       print('');
       print('📦 Install Python dependencies with:');
-      print('   pip install -r "$requirementsPath"');
+      if (pipCommand.contains(' -m ')) {
+        print('   $pipCommand install -r "$requirementsPath"');
+      } else {
+        print('   $pipCommand install -r "$requirementsPath"');
+      }
     } else {
       final packageLocation = await pythonBridge.getPackageLocation();
       print('⚠️  Could not automatically find requirements.txt');
@@ -29,14 +34,22 @@ class RequirementsHelper {
           print('   ✅ File exists!');
           print('');
           print('Install with:');
-          print('   pip install -r "$altPath"');
+          if (pipCommand.contains(' -m ')) {
+            print('   $pipCommand install -r "$altPath"');
+          } else {
+            print('   $pipCommand install -r "$altPath"');
+          }
         } else {
           print('   ❌ File not found');
         }
       }
       print('');
       print('📋 Manual installation:');
-      print('   pip install torch transformers pillow numpy clip-by-openai cairosvg python-lottie');
+      if (pipCommand.contains(' -m ')) {
+        print('   $pipCommand install torch transformers pillow numpy clip-by-openai cairosvg lottie');
+      } else {
+        print('   $pipCommand install torch transformers pillow numpy clip-by-openai cairosvg lottie');
+      }
     }
   }
 }

@@ -49,5 +49,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Union-find algorithm for grouping similar assets
 - Python bridge for CLIP model integration
 - SVG rasterization using cairosvg
-- Lottie frame extraction using python-lottie
+- Lottie frame extraction using lottie
 
